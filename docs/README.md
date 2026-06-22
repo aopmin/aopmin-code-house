@@ -7,11 +7,11 @@ modules:
   - Footer
 bannerBrand:
   title: aopmin的代码小屋
-  description: Java后端、微服务、分布式技术笔记
-  tagline: 记录 Dubbo、Redis、Kafka、SpringBoot 实战踩坑经验
+  tagline: 加载中...
   buttons:
-    - { text: 开始阅读, link: '/blogs/other/guide', type: plain }
-    - { text: GitHub, link: 'https://github.com/你的github账号/aopmin-code-house', type: plain }
+    - { text: 探索知识, link: '/blogs/other/guide', type: plain }
+    - { text: 开源项目, link: 'https://github.com/你的github账号/aopmin-code-house', type: plain }
+    - { text: 里程碑, link: '/timeline', type: plain }
 features:
   - title: Spring 系列
     details: 深入解析 Spring IoC、AOP、MVC、事务、Boot 等核心机制
@@ -41,4 +41,4 @@ footer:
 
 ## 关于本站
 
-一个专注后端开发的个人技术博客，所有文章均为亲身实践与源码阅读总结。欢迎在 [GitHub](https://github.com/你的github账号/aopmin-code-house) 上交流讨论。
+作为一名摸索全栈开发的小白，在这里记录下开发路上每一次踩坑的点点滴滴。

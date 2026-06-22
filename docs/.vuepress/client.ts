@@ -8,7 +8,7 @@ export default defineClientConfig({
         .banner-brand__wrapper {
           height: auto !important;
           min-height: auto !important;
-          padding: 150px 24px 0 !important;
+          padding: 150px 0 0 !important;
           display: block !important;
           text-align: left !important;
           position: relative !important;
@@ -19,7 +19,7 @@ export default defineClientConfig({
           z-index: 2 !important;
           max-width: 1200px !important;
           margin: 0 auto !important;
-          padding: 0 20px 40px !important;
+          padding: 0 20px 10px !important;
         }
         .banner-brand__content .title {
           font-size: 2.5rem !important;
@@ -39,11 +39,17 @@ export default defineClientConfig({
           margin-bottom: 0 !important;
           justify-content: flex-start !important;
         }
+        .banner-brand__content .btn-group > *:first-child {
+          background: #2f8fd0 !important;
+          border-color: #2f8fd0 !important;
+          color: #fff !important;
+        }
         .features__container {
           max-width: 1200px !important;
           margin: 0 auto !important;
           padding: 0 20px 16px !important;
           gap: 16px !important;
+          margin-top: 0 !important;
         }
         .features__item {
           padding: 20px 18px !important;
@@ -169,6 +175,15 @@ export default defineClientConfig({
       }
 
       initBgPaths()
+
+      // 从 API 获取随机短句填充 tagline
+      fetch('https://api.shadiao.pro/chp')
+        .then(res => res.json())
+        .then(data => {
+          const tagline = document.querySelector('.banner-brand__content .tagline')
+          if (tagline && data?.data?.text) tagline.textContent = data.data.text
+        })
+        .catch(() => {})
     }
   }
 })
