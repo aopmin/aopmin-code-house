@@ -1,0 +1,76 @@
+/* ===== 首页紧凑化样式 ===== */
+
+/* 整体去掉多余上间距 */
+.home-wrapper {
+  padding-top: 0 !important;
+}
+
+/* BannerBrand hero 左对齐，紧贴导航栏 */
+.banner-brand__wrapper {
+  padding: 150px 24px 0 !important;
+  min-height: auto !important;
+  display: block !important;
+  text-align: left !important;
+}
+.banner-brand__content {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+.banner-brand__content .title {
+  font-size: 2.5rem !important;
+  margin-bottom: 10px !important;
+  margin-top: 0 !important;
+}
+.banner-brand__content .description {
+  font-size: 1.1rem !important;
+  margin-bottom: 4px !important;
+}
+.banner-brand__content .tagline {
+  font-size: 0.95rem !important;
+  margin-bottom: 12px !important;
+  opacity: 0.7;
+}
+.banner-brand__content .btn-group {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  justify-content: flex-start !important;
+}
+
+/* 消除 Home 模块间的多余间距 */
+.home-wrapper > * + * {
+  margin-top: 0 !important;
+}
+
+/* Features 卡片网格，紧贴 Hero */
+.features__container {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 24px 16px !important;
+  gap: 16px !important;
+}
+.features__item {
+  padding: 20px 18px !important;
+  border-radius: 8px !important;
+}
+.features__item h4 {
+  font-size: 1rem !important;
+  margin-bottom: 6px !important;
+}
+.features__item p {
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+}
+
+/* MdContent 区域收窄 */
+.home-wrapper .vp-doc {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 20px 24px !important;
+}
+
+/* Footer 区域压缩 */
+.footer-wrapper {
+  padding: 24px 20px !important;
+  font-size: 0.85rem !important;
+}

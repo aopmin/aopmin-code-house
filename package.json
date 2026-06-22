@@ -1,0 +1,23 @@
+{
+  "name": "vuepress-theme-reco-demo",
+  "version": "2.0.0",
+  "description": "Demo for vuepress-theme-reco@2.x.",
+  "repository": "git@github.com:recoluan/vuepress-theme-reco-demo.git",
+  "author": "reco_luan <recoluan@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "mkdir -p node_modules/@internal/routes && echo '{\"name\":\"@internal/routes\",\"type\":\"module\",\"main\":\"./index.js\"}' > node_modules/@internal/routes/package.json && echo 'export const redirects = {}; export const routes = {};' > node_modules/@internal/routes/index.js",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "docs:start": "vuepress dev docs"
+  },
+  "dependencies": {
+    "@vuepress/bundler-webpack": "2.0.0-rc.19",
+    "vue": "3.4.38"
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "vuepress": "2.0.0-rc.19",
+    "vuepress-theme-reco": "^2.0.0-rc.26"
+  }
+}
