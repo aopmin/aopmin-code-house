@@ -1,11 +1,28 @@
 import { defineUserConfig } from "vuepress";
 import recoTheme from "vuepress-theme-reco";
 import { viteBundler } from '@vuepress/bundler-vite'
+import { gitPlugin } from '@vuepress/plugin-git'
 
 export default defineUserConfig({
   title: "aopmin的代码小屋",
   description: "Java后端、微服务、分布式技术笔记",
   bundler: viteBundler(),
+
+  plugins: [
+    gitPlugin(),
+  ],
+
+  extendsPage(page) {
+    // 计算字数和阅读时间
+    const content = page.content || ''
+    // 去除 frontmatter 和 HTML 标签
+    const text = content.replace(/---[\s\S]*?---/, '').replace(/<[^>]*>/g, '').replace(/[#*`\[\]()!>|_~{}-]/g, '')
+    const wordCount = text.replace(/\s+/g, '').length
+    const readingTime = Math.max(1, Math.ceil(wordCount / 300))
+    page.data.wordCount = wordCount
+    page.data.readingTime = readingTime
+  },
+
   theme: recoTheme({
     logo: "/logo.png",
     author: "aopmin",
@@ -24,6 +41,7 @@ export default defineUserConfig({
     // 顶部导航栏
     navbar: [
       { text: "首页", link: "/" },
+      { text: "导航", link: "/nav/" },
       { text: "Spring", link: "/categories/category1/1.html" },
       { text: "MyBatis", link: "/categories/category2/1.html" },
       { text: "综合", link: "/categories/reco/1.html" },

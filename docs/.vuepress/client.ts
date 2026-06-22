@@ -1,3 +1,4 @@
+// @ts-ignore
 import { defineClientConfig } from 'vuepress/client'
 
 export default defineClientConfig({
@@ -66,6 +67,9 @@ export default defineClientConfig({
           padding: 24px 20px !important;
           font-size: 0.85rem !important;
         }
+        .nav-link:hover { border-color: #3eaf7c !important; }
+        html.dark .nav-link { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.08) !important; }
+        html.dark .nav-link:hover { background: rgba(255,255,255,0.08) !important; border-color: #3eaf7c !important; }
         .bg-paths-canvas {
           position: absolute !important;
           top: 0; left: 0;
@@ -184,6 +188,38 @@ export default defineClientConfig({
           if (tagline && data?.data?.text) tagline.textContent = data.data.text
         })
         .catch(() => {})
+
+      // 在文章页注入字数和阅读时间
+      const injectPageStats = () => {
+        const pageInfo = document.querySelector('.page-info')
+        if (!pageInfo || pageInfo.querySelector('.page-stats')) return
+
+        // 从 __VUEPRESS_DATA__ 获取页面数据
+        const pageDataEl = document.querySelector('meta[name="page-data"]')
+        if (!pageDataEl) return
+
+        const content = document.querySelector('.theme-reco-md-content')?.textContent || ''
+        const wordCount = content.replace(/\s+/g, '').length
+        const readingTime = Math.max(1, Math.ceil(wordCount / 300))
+
+        const span = document.createElement('span')
+        span.className = 'page-stats'
+        span.innerHTML = `<span class="stats-item">📝 ${wordCount} 字</span><span class="stats-item">⏱ ${readingTime} 分钟</span>`
+        span.style.cssText = 'display:inline-flex;gap:12px;font-size:0.85rem;color:var(--c-text-light);align-items:center;margin-left:4px;'
+
+        const existingIcon = pageInfo.lastElementChild
+        if (existingIcon) {
+          existingIcon.insertAdjacentHTML('afterend', span.innerHTML)
+        } else {
+          pageInfo.innerHTML += `<span class="page-stats" style="display:inline-flex;gap:12px;font-size:0.85rem;color:var(--c-text-light);"><span class="stats-item">📝 ${wordCount} 字</span><span class="stats-item">⏱ ${readingTime} 分钟</span></span>`
+        }
+      }
+
+      // 监听页面切换
+      const pageObserver = new MutationObserver(() => {
+        setTimeout(injectPageStats, 200)
+      })
+      pageObserver.observe(document.body, { childList: true, subtree: true })
     }
   }
 })
