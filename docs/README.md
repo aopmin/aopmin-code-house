@@ -32,13 +32,13 @@ features:
   - title: 实战踩坑
     details: 生产环境故障排查、性能调优与架构演进经验
 footer:
-  record: 粤ICP备XXXXXXXX号
-  recordLink: https://beian.miit.gov.cn
-  cyberSecurityRecord: 粤公网安备 XXXXXXXX号
-  cyberSecurityLink: 'https://beian.mps.gov.cn/#/'
+#  record: 粤ICP备XXXXXXXX号
+#  recordLink: https://beian.miit.gov.cn
+#  cyberSecurityRecord: 粤公网安备 XXXXXXXX号
+#  cyberSecurityLink: 'https://beian.mps.gov.cn/#/'
   startYear: 2025
 ---
 
 ## 关于本站
 
-全栈路上，记录每次踩坑的点点滴滴。
+全栈路上，记录每一次踩坑的点点滴滴。

@@ -7,6 +7,9 @@ export default defineUserConfig({
   base: '/code-house/',
   title: "aopmin的代码小屋",
   description: "Java后端、微服务、分布式技术笔记",
+  head: [
+    ["link", { rel: "icon", href: "/code-house/favicon.png" }],
+  ],
   bundler: viteBundler(),
 
   plugins: [

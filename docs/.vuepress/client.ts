@@ -215,9 +215,9 @@ export default defineClientConfig({
 
         const existingIcon = pageInfo.lastElementChild
         if (existingIcon) {
-          existingIcon.insertAdjacentHTML('afterend', span.innerHTML)
+          existingIcon.insertAdjacentElement('afterend', span)
         } else {
-          pageInfo.innerHTML += `<span class="page-stats" style="display:inline-flex;gap:12px;font-size:0.85rem;color:var(--c-text-light);"><span class="stats-item">📝 ${wordCount} 字</span><span class="stats-item">⏱ ${readingTime} 分钟</span></span>`
+          pageInfo.appendChild(span)
         }
       }
 
