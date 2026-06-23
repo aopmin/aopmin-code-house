@@ -4,6 +4,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { gitPlugin } from '@vuepress/plugin-git'
 
 export default defineUserConfig({
+  base: '/code-house/',
   title: "aopmin的代码小屋",
   description: "Java后端、微服务、分布式技术笔记",
   bundler: viteBundler(),
@@ -28,8 +29,9 @@ export default defineUserConfig({
     author: "aopmin",
     authorAvatar: "/head.png",
     colorMode: "dark",
-    docsRepo: "https://github.com/你的github账号/aopmin-code-house",
-    docsBranch: "main",
+    // 这里仓库地址你写错了，一并修正
+    docsRepo: "https://github.com/aopmin/code-house",
+    docsBranch: "blog-page", // 你的部署分支是 blog-page，不是 main
     docsDir: "docs",
     lastUpdatedText: "更新时间",
     // 侧边文档分组
