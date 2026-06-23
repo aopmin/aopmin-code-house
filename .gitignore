@@ -1,7 +1,8 @@
 docs/.vuepress/.cache
 docs/.vuepress/.temp
-#docs/.vuepress/dist
+docs/.vuepress/dist
 node_modules
 .idea
 .claude
 *.iml
+.DS_Store

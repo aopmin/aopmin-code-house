@@ -1,1 +1,0 @@
-import{_ as t,c as e,o}from"./app-C7RxKlLo.js";const a={};function n(r,s){return o(),e("div")}const l=t(a,[["render",n]]),_=JSON.parse('{"path":"/posts/1.html","title":"","lang":"en-US","frontmatter":{"layout":"Posts"},"headers":[],"filePathRelative":null,"git":{},"wordCount":0,"readingTime":1}');export{l as comp,_ as data};
