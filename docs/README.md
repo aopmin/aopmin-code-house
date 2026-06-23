@@ -9,9 +9,9 @@ bannerBrand:
   title: aopmin的代码小屋
   tagline: 童话是一种生活态度，仅此而已。
   buttons:
-    - { text: 探索知识, link: '/blogs/other/guide', type: plain }
+    - { text: 探索知识, link: '/code-house/blogs/other/guide', type: plain }
     - { text: 开源项目, link: 'https://github.com/你的github账号/aopmin-code-house', type: plain }
-    - { text: 里程碑, link: '/timeline', type: plain }
+    - { text: 里程碑, link: '/code-house/timeline', type: plain }
 features:
   - title: Spring 系列
     details: 深入解析 Spring IoC、AOP、MVC、事务、Boot 等核心机制
