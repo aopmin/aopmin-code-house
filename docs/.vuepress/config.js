@@ -50,7 +50,19 @@ export default defineUserConfig({
       { text: "Spring", link: "/categories/category1/1.html" },
       { text: "MyBatis", link: "/categories/category2/1.html" },
       { text: "综合", link: "/categories/reco/1.html" },
+      {
+        text: "Java",
+        children: [
+          { text: "Java集合", link: "/categories/java-collection/1.html" },
+          { text: "Java并发", link: "/categories/java-concurrent/1.html" },
+          { text: "JVM", link: "/categories/java-jvm/1.html" },
+          { text: "JDK源码", link: "/categories/java-jdk/1.html" },
+          { text: "设计模式", link: "/categories/java-design/1.html" },
+          { text: "Netty", link: "/categories/java-netty/1.html" },
+        ],
+      },
       { text: "标签", link: "/tags/tag1/1.html" },
+      { text: "Agent", link: "/categories/agent/1.html" },
       {
         text: "更多",
         children: [
