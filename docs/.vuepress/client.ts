@@ -1,8 +1,112 @@
 // @ts-ignore
 import { defineClientConfig } from 'vuepress/client'
+import { onMounted } from 'vue'
+
+function initBgCanvas(retries = 10) {
+  const wrapper = document.querySelector('.banner-brand__wrapper') as HTMLElement | null
+  if (!wrapper) {
+    // 不在首页或 wrapper 还没渲染，重试
+    if (retries > 0) {
+      requestAnimationFrame(() => initBgCanvas(retries - 1))
+    }
+    return
+  }
+  // 已经初始化过了
+  if (wrapper.querySelector('.bg-paths-canvas')) return
+
+  const canvas = document.createElement('canvas')
+  canvas.className = 'bg-paths-canvas'
+  wrapper.insertBefore(canvas, wrapper.firstChild)
+
+  const ctx = canvas.getContext('2d')!
+  let w = 0, h = 0
+
+  const resize = () => {
+    w = canvas.width = wrapper.clientWidth
+    h = canvas.height = wrapper.clientHeight
+  }
+  resize()
+  window.addEventListener('resize', resize)
+
+  const numPaths = 6
+  const colors = [
+    'rgba(59, 130, 246, 0.35)',
+    'rgba(16, 185, 129, 0.30)',
+    'rgba(99, 102, 241, 0.33)',
+    'rgba(6, 182, 212, 0.28)',
+    'rgba(139, 92, 246, 0.26)',
+    'rgba(34, 197, 94, 0.24)',
+  ]
+
+  const paths: Array<{
+    points: { x: number; y: number }[]
+    progress: number
+    speed: number
+    color: string
+    width: number
+    amplitude: number
+    offset: number
+  }> = []
+
+  for (let i = 0; i < numPaths; i++) {
+    const numPoints = 5 + Math.floor(Math.random() * 6)
+    const points: { x: number; y: number }[] = []
+    for (let j = 0; j < numPoints; j++) {
+      points.push({
+        x: (j / (numPoints - 1)) * (w + 200) - 100,
+        y: h * (0.2 + Math.random() * 0.6),
+      })
+    }
+    paths.push({
+      points,
+      progress: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0008,
+      color: colors[i % colors.length],
+      width: 1.5 + Math.random() * 2,
+      amplitude: 30 + Math.random() * 60,
+      offset: i * 0.15,
+    })
+  }
+
+  let animId: number
+  const animate = () => {
+    ctx.clearRect(0, 0, w, h)
+
+    paths.forEach((p) => {
+      p.progress += p.speed
+      if (p.progress > 2) p.progress -= 1
+
+      ctx.beginPath()
+      ctx.strokeStyle = p.color
+      ctx.lineWidth = p.width
+      ctx.lineCap = 'round'
+
+      const pts = p.points.map((pt, i) => ({
+        x: pt.x + Math.sin(p.progress * Math.PI * 2 + i * 1.5 + p.offset * 10) * p.amplitude * 0.5,
+        y: pt.y + Math.cos(p.progress * Math.PI * 2 + i * 1.2 + p.offset * 10) * p.amplitude,
+      }))
+
+      ctx.moveTo(pts[0].x, pts[0].y)
+      for (let i = 0; i < pts.length - 1; i++) {
+        const cpX = (pts[i].x + pts[i + 1].x) / 2
+        ctx.quadraticCurveTo(pts[i].x, pts[i].y, cpX, (pts[i].y + pts[i + 1].y) / 2)
+      }
+      ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y)
+      ctx.stroke()
+    })
+
+    animId = requestAnimationFrame(animate)
+  }
+  animate()
+
+  const observer = new ResizeObserver(() => {
+    resize()
+  })
+  observer.observe(wrapper)
+}
 
 export default defineClientConfig({
-  enhance({ app }) {
+  enhance({ app, router }) {
     if (typeof window !== 'undefined') {
       const style = document.createElement('style')
       style.textContent = `
@@ -81,104 +185,10 @@ export default defineClientConfig({
       `
       document.head.appendChild(style)
 
-      const initBgPaths = () => {
-        const wrapper = document.querySelector('.banner-brand__wrapper')
-        if (!wrapper) return setTimeout(initBgPaths, 100)
-
-        if (wrapper.querySelector('.bg-paths-canvas')) return
-
-        const canvas = document.createElement('canvas')
-        canvas.className = 'bg-paths-canvas'
-        wrapper.insertBefore(canvas, wrapper.firstChild)
-
-        const ctx = canvas.getContext('2d')!
-        let w = 0, h = 0
-
-        const resize = () => {
-          w = canvas.width = wrapper.clientWidth
-          h = canvas.height = wrapper.clientHeight
-        }
-        resize()
-        window.addEventListener('resize', resize)
-
-        const numPaths = 6
-        const colors = [
-          'rgba(59, 130, 246, 0.35)',
-          'rgba(16, 185, 129, 0.30)',
-          'rgba(99, 102, 241, 0.33)',
-          'rgba(6, 182, 212, 0.28)',
-          'rgba(139, 92, 246, 0.26)',
-          'rgba(34, 197, 94, 0.24)',
-        ]
-
-        const paths: Array<{
-          points: { x: number; y: number }[]
-          progress: number
-          speed: number
-          color: string
-          width: number
-          amplitude: number
-          offset: number
-        }> = []
-
-        for (let i = 0; i < numPaths; i++) {
-          const numPoints = 5 + Math.floor(Math.random() * 6)
-          const points: { x: number; y: number }[] = []
-          for (let j = 0; j < numPoints; j++) {
-            points.push({
-              x: (j / (numPoints - 1)) * (w + 200) - 100,
-              y: h * (0.2 + Math.random() * 0.6),
-            })
-          }
-          paths.push({
-            points,
-            progress: Math.random(),
-            speed: 0.0003 + Math.random() * 0.0008,
-            color: colors[i % colors.length],
-            width: 1.5 + Math.random() * 2,
-            amplitude: 30 + Math.random() * 60,
-            offset: i * 0.15,
-          })
-        }
-
-        let animId: number
-        const animate = () => {
-          ctx.clearRect(0, 0, w, h)
-
-          paths.forEach((p) => {
-            p.progress += p.speed
-            if (p.progress > 2) p.progress -= 1
-
-            ctx.beginPath()
-            ctx.strokeStyle = p.color
-            ctx.lineWidth = p.width
-            ctx.lineCap = 'round'
-
-            const pts = p.points.map((pt, i) => ({
-              x: pt.x + Math.sin(p.progress * Math.PI * 2 + i * 1.5 + p.offset * 10) * p.amplitude * 0.5,
-              y: pt.y + Math.cos(p.progress * Math.PI * 2 + i * 1.2 + p.offset * 10) * p.amplitude,
-            }))
-
-            ctx.moveTo(pts[0].x, pts[0].y)
-            for (let i = 0; i < pts.length - 1; i++) {
-              const cpX = (pts[i].x + pts[i + 1].x) / 2
-              ctx.quadraticCurveTo(pts[i].x, pts[i].y, cpX, (pts[i].y + pts[i + 1].y) / 2)
-            }
-            ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y)
-            ctx.stroke()
-          })
-
-          animId = requestAnimationFrame(animate)
-        }
-        animate()
-
-        const observer = new ResizeObserver(() => {
-          resize()
-        })
-        observer.observe(wrapper)
-      }
-
-      initBgPaths()
+      // SPA 页面切换时重新初始化 canvas（从其他页面切回首页）
+      router.afterEach(() => {
+        setTimeout(() => initBgCanvas(), 100)
+      })
 
       // 从 API 获取随机短句填充 tagline
       fetch('https://api.shadiao.pro/chp')
@@ -193,10 +203,6 @@ export default defineClientConfig({
       const injectPageStats = () => {
         const pageInfo = document.querySelector('.page-info')
         if (!pageInfo || pageInfo.querySelector('.page-stats')) return
-
-        // 从 __VUEPRESS_DATA__ 获取页面数据
-        const pageDataEl = document.querySelector('meta[name="page-data"]')
-        if (!pageDataEl) return
 
         const content = document.querySelector('.theme-reco-md-content')?.textContent || ''
         const wordCount = content.replace(/\s+/g, '').length
@@ -221,5 +227,18 @@ export default defineClientConfig({
       })
       pageObserver.observe(document.body, { childList: true, subtree: true })
     }
-  }
+  },
+
+  rootComponents: [
+    {
+      name: 'BgPathsCanvas',
+      setup() {
+        onMounted(() => {
+          // Vue 水合/挂载完成后才创建 canvas，避免被水合过程移除
+          initBgCanvas()
+        })
+        return () => null
+      },
+    },
+  ],
 })
