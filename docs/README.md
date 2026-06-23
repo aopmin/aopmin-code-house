@@ -7,7 +7,7 @@ modules:
   - Footer
 bannerBrand:
   title: aopmin的代码小屋
-  tagline: 加载中...
+  tagline: 童话是一种生活态度，仅此而已。
   buttons:
     - { text: 探索知识, link: '/blogs/other/guide', type: plain }
     - { text: 开源项目, link: 'https://github.com/你的github账号/aopmin-code-house', type: plain }
